@@ -8,6 +8,7 @@ import com.example.gestorpedidoshibernate.domain.Pedido.Pedido;
 import com.example.gestorpedidoshibernate.domain.Pedido.PedidoDAO;
 import com.example.gestorpedidoshibernate.domain.Producto.Producto;
 import com.example.gestorpedidoshibernate.domain.Producto.ProductoDAO;
+import com.example.gestorpedidoshibernate.ReportService;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -16,9 +17,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.extern.java.Log;
+import net.sf.jasperreports.engine.JRException;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -63,6 +66,8 @@ public class ListItemPedidoController implements Initializable {
     @javafx.fxml.FXML
     private ComboBox productoBox;
     private Pedido pedidoActual = null;
+    @javafx.fxml.FXML
+    private Button crearInforme;
 
     @javafx.fxml.FXML
     public void initialize() {
@@ -321,5 +326,21 @@ public class ListItemPedidoController implements Initializable {
 
         tablaItems.setItems(FXCollections.observableList(itemActualizados));
         tablaItems.refresh();
+    }
+
+    @javafx.fxml.FXML
+    public void crearInforme(ActionEvent actionEvent) {
+        try {
+            // Obtén el código del pedido desde tu lógica de la aplicación
+            String codigoPedido = Session.getCurrentItemPedido().getCodigo(); // Asegúrate de tener la lógica correcta para obtener el código del pedido
+
+            System.out.println(codigoPedido);
+            // Llama al servicio de informe y pasa el código del pedido como parámetro
+            (new ReportService()).generateReport(codigoPedido);
+        } catch (JRException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

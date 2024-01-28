@@ -6,7 +6,9 @@ module com.example.gestorpedidoshibernate {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires java.naming;
-    requires java.sql; //Si trabajamos con fechas
+    requires java.sql;
+    requires java.desktop;
+    requires jasperreports; //Si trabajamos con fechas
 
     opens com.example.gestorpedidoshibernate.domain.ItemPedido;
     opens com.example.gestorpedidoshibernate.domain.Pedido;
